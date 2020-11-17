@@ -1,4 +1,4 @@
-package com.mycompany.infraestructura.dominio;
+package infraestructuraobligatorio.dominio;
 
 public class Tarea {
     

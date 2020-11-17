@@ -1,4 +1,4 @@
-package com.mycompany.infraestructura.dominio.enums;
+package infraestructuraobligatorio.dominio.enums;
 
 public enum EstadoProceso {
     
