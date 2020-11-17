@@ -49,7 +49,7 @@ public class Sistema {
     private void borrarTarea(Proceso proceso) {
         LinkedList<Tarea> tareas = proceso.getTareas();
         if (!tareas.isEmpty()) {
-            Tarea tarea = tareas.getFirst();
+            Tarea tarea = tareas.element();
             System.out.println("Se ejecuto la tarea: " + tarea.getNombre() + " del proceso " + proceso.getId());
             tareas.pop();
         }
@@ -71,9 +71,9 @@ public class Sistema {
         t1p2.push(t4);
         
         LinkedList<Tarea> t1p3 = new LinkedList<Tarea>();
-        Tarea t5 = new Tarea("Contruir");
+        Tarea t5 = new Tarea("Destruir");
         Tarea t6 = new Tarea("Picar");
-        Tarea t7 = new Tarea("Destruir");
+        Tarea t7 = new Tarea("Construir");
        
         t1p3.push(t5);
         t1p3.push(t6);
