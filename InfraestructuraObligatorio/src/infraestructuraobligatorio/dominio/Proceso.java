@@ -10,7 +10,7 @@ public class Proceso{
     private EstadoProceso estado;
     private Double duracion;
     private LinkedList<Tarea> tareas;
-    private Integer prioridad;
+    private Recurso recurso;
 
     public Long getId() {
         return id;
@@ -52,23 +52,24 @@ public class Proceso{
         this.tareas = tareas;
     }
 
-    public Integer getPrioridad() {
-        return prioridad;
+    public Recurso getRecurso() {
+        return recurso;
     }
 
-    public void setPrioridad(Integer prioridad) {
-        this.prioridad = prioridad;
+    public void setRecurso(Recurso recurso) {
+        this.recurso = recurso;
     }
     
     
 
-    public Proceso(Long id, String nombre, EstadoProceso estado, Double duracion, Integer prioridad, LinkedList<Tarea> tareas) {
+    public Proceso(Long id, String nombre, EstadoProceso estado, Double duracion, 
+                    LinkedList<Tarea> tareas, Recurso recurso) {
         this.id = id;
         this.nombre = nombre;
         this.estado = estado;
         this.duracion = duracion;
         this.tareas = tareas;
-        this.prioridad = prioridad;
+        this.recurso = recurso;
     }
 
     
