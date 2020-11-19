@@ -7,7 +7,6 @@ import infraestructuraobligatorio.dominio.Usuario;
 import infraestructuraobligatorio.dominio.enums.Colores;
 import infraestructuraobligatorio.dominio.enums.EstadoProceso;
 import infraestructuraobligatorio.dominio.enums.Permiso;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -21,10 +20,15 @@ public class Sistema {
         validarListaVacia(procesos);
         List<Proceso> procesosClonada = new ArrayList<>(procesos);
         
-        while (!procesosClonada.isEmpty()) {
+        Double maxIteraciones = maxIteracionesPrevencionDeadLocks(procesos);
+        
+        Double contador = 1D;
+        while (!procesosClonada.isEmpty() && contador <= maxIteraciones) {
             for (Proceso proceso : procesosClonada) {
                 boolean tienePermisos = validarPermiso(procesos, proceso);
                 procesosClonada = new ArrayList<>(procesos);
+                
+                Thread.sleep(1000L); 
                 
                 if(tienePermisos){
                     ejecutar(proceso);
@@ -32,6 +36,7 @@ public class Sistema {
                 }
             }
             procesosClonada = new ArrayList<>(procesos);
+            contador++;
         }
     }
 
@@ -145,10 +150,9 @@ public class Sistema {
     
     private boolean validarPermiso(List<Proceso> procesos, Proceso proceso){
         boolean tienePermisos = true;
+        int igual = proceso.getPermiso().compareTo(proceso.getUsuario().getPermiso());
 
-        int igual = proceso.getUsuario().getPermiso().compareTo(proceso.getPermiso());
-
-        if(igual > 0){
+        if(igual < 0){
             imprimirConColor("El proceso "+proceso.getId()+" no tiene permisos",Colores.RED);
             procesos.remove(proceso);
             tienePermisos = false;
@@ -267,7 +271,7 @@ public class Sistema {
         List<Usuario> usuariosConPermiso = new ArrayList<>();
         for(Usuario usuario : usuarios){
             //if(p.getPermiso().equals(usuario.getPermiso())){
-            int igual = usuario.getPermiso().compareTo(p.getPermiso());
+            int igual = p.getPermiso().compareTo(usuario.getPermiso());
             if(igual >= 0){
                 usuariosConPermiso.add(usuario);
             }
@@ -379,7 +383,7 @@ public class Sistema {
         boolean existeUsuarioConPermiso=false;
         for(Usuario usuario : usuarios){
             //if(proceso.getPermiso().equals(usuario.getPermiso())){
-            int igual = usuario.getPermiso().compareTo(proceso.getPermiso());
+            int igual = proceso.getPermiso().compareTo(usuario.getPermiso());
             if(igual >= 0){
                 existeUsuarioConPermiso= true;
                 break;
@@ -389,7 +393,15 @@ public class Sistema {
         if(!existeUsuarioConPermiso){
             throw new Exception("No existe ningun usuario con el permiso: " + proceso.getPermiso() + " asignado al proceso, Vuelva a intentarlo");
         }
-        
+    }
+    
+    private Double maxIteracionesPrevencionDeadLocks(List<Proceso> procesos){
+        Double maxIteraciones = 1D;
+        for(Proceso proceso : procesos){
+            maxIteraciones = maxIteraciones * proceso.getDuracion();
+        }
+        maxIteraciones = (maxIteraciones * maxIteraciones);
+        return maxIteraciones;
     }
     
 }
