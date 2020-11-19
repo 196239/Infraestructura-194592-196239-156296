@@ -1,14 +1,14 @@
 package infraestructuraobligatorio.dominio;
 
+import infraestructuraobligatorio.dominio.enums.Permiso;
 import java.math.BigDecimal;
-import java.util.List;
 
-public class Recurso {
+public class Usuario {
     
     private Integer id;
     private String nombre;
-    private boolean enUso;
-    
+    private Permiso permiso;
+
     public Integer getId() {
         return id;
     }
@@ -25,26 +25,23 @@ public class Recurso {
         this.nombre = nombre;
     }
 
-    public boolean isEnUso() {
-        return enUso;
+    public Permiso getPermiso() {
+        return permiso;
     }
 
-    public void setEnUso(boolean enUso) {
-        this.enUso = enUso;
+    public void setPermiso(Permiso permiso) {
+        this.permiso = permiso;
     }
 
-    
-    public Recurso(Integer id, String nombre) {
+    public Usuario(Integer id, String nombre, Permiso permiso) {
         this.id = id;
         this.nombre = nombre;
-        this.enUso = false;
+        this.permiso = permiso;
     }
 
-    public Recurso() {
+    public Usuario() {
         this.id = (int) (Math.random()*987654321+1);
-        this.enUso = false;
     }
-    
     
     
     
