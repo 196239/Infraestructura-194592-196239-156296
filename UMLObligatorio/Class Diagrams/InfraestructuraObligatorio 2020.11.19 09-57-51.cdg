@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ClassDiagram name="InfraestructuraObligatorio">
+  <ClassDiagramComponents>
+    <Class name="ComunidacionUsuario" package="infraestructuraobligatorio" visibility="public" xPosition="20.0" yPosition="20.0">
+      <Fields/>
+      <Constructors/>
+      <Methods>
+        <Method name="iniciar" returnType="void" visibility="public"/>
+        <Method name="imprimirInicio" returnType="void" visibility="private"/>
+        <Method name="imprimirConColor" returnType="void" visibility="private">
+          <Argument type="String" name="mensaje"/>
+          <Argument type="Colores" name="color"/>
+        </Method>
+        <Method name="validarRango" returnType="void" visibility="private">
+          <Argument type="Integer" name="numero"/>
+          <Argument type="Integer" name="rangoMin"/>
+          <Argument type="Integer" name="rangoMax"/>
+        </Method>
+        <Method name="validarListaUsuariosYRecursos" returnType="void" visibility="private">
+          <Argument type="List&lt;Usuario&gt;" name="usuarios"/>
+          <Argument type="List&lt;Recurso&gt;" name="recursos"/>
+        </Method>
+        <Method name="validarProceso" returnType="void" visibility="private">
+          <Argument type="List&lt;Proceso&gt;" name="procesos"/>
+          <Argument type="List&lt;Usuario&gt;" name="usuario"/>
+          <Argument type="List&lt;Recurso&gt;" name="recursos"/>
+        </Method>
+        <Method name="visualizarDatos" returnType="void" visibility="private">
+          <Argument type="List&lt;Proceso&gt;" name="procesos"/>
+          <Argument type="List&lt;Usuario&gt;" name="usuarios"/>
+          <Argument type="List&lt;Recurso&gt;" name="recursos"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Enum name="Colores" package="infraestructuraobligatorio.dominio.enums" visibility="public" xPosition="320.0" yPosition="20.0">
+      <Literals>
+        <Literal name="ANSI_RESET"/>
+        <Literal name="BLACK"/>
+        <Literal name="RED"/>
+        <Literal name="GREEN"/>
+        <Literal name="YELLOW"/>
+        <Literal name="BLUE"/>
+        <Literal name="PURPLE"/>
+        <Literal name="CYAN"/>
+        <Literal name="WHITE"/>
+      </Literals>
+    </Enum>
+    <Enum name="EstadoProceso" package="infraestructuraobligatorio.dominio.enums" visibility="public" xPosition="620.0" yPosition="20.0">
+      <Literals>
+        <Literal name="LISTO"/>
+        <Literal name="BLOQUEADO"/>
+        <Literal name="EN_EJECUCION"/>
+        <Literal name="SUSPENDIDO_LISTO"/>
+        <Literal name="SUSPENDIDO_BLOQUEADO"/>
+      </Literals>
+    </Enum>
+    <Enum name="Permiso" package="infraestructuraobligatorio.dominio.enums" visibility="public" xPosition="920.0" yPosition="20.0">
+      <Literals>
+        <Literal name="ADMIN"/>
+        <Literal name="USUARIO"/>
+        <Literal name="INVITADO"/>
+      </Literals>
+    </Enum>
+    <Class name="Proceso" package="infraestructuraobligatorio.dominio" visibility="public" xPosition="1220.0" yPosition="20.0">
+      <Fields>
+        <Field name="id" type="Integer" visibility="private"/>
+        <Field name="nombre" type="String" visibility="private"/>
+        <Field name="estado" type="EstadoProceso" visibility="private"/>
+        <Field name="duracion" type="Double" visibility="private"/>
+        <Field name="tareas" type="LinkedList&lt;Tarea&gt;" visibility="private"/>
+        <Field name="recurso" type="Recurso" visibility="private"/>
+        <Field name="permiso" type="Permiso" visibility="private"/>
+        <Field name="usuario" type="Usuario" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="Integer" name="id"/>
+          <Argument type="String" name="nombre"/>
+          <Argument type="EstadoProceso" name="estado"/>
+          <Argument type="Double" name="duracion"/>
+          <Argument type="LinkedList&lt;Tarea&gt;" name="tareas"/>
+          <Argument type="Recurso" name="recurso"/>
+          <Argument type="Usuario" name="usuario"/>
+          <Argument type="Permiso" name="permiso"/>
+        </Constructor>
+        <Constructor visibility="public"/>
+      </Constructors>
+      <Methods>
+        <Method name="getId" returnType="Integer" visibility="public"/>
+        <Method name="setId" returnType="void" visibility="public">
+          <Argument type="Integer" name="id"/>
+        </Method>
+        <Method name="getNombre" returnType="String" visibility="public"/>
+        <Method name="setNombre" returnType="void" visibility="public">
+          <Argument type="String" name="nombre"/>
+        </Method>
+        <Method name="getEstado" returnType="EstadoProceso" visibility="public"/>
+        <Method name="setEstado" returnType="void" visibility="public">
+          <Argument type="EstadoProceso" name="estado"/>
+        </Method>
+        <Method name="getDuracion" returnType="Double" visibility="public"/>
+        <Method name="setDuracion" returnType="void" visibility="public">
+          <Argument type="Double" name="duracion"/>
+        </Method>
+        <Method name="getTareas" returnType="LinkedList&lt;Tarea&gt;" visibility="public"/>
+        <Method name="setTareas" returnType="void" visibility="public">
+          <Argument type="LinkedList&lt;Tarea&gt;" name="tareas"/>
+        </Method>
+        <Method name="getRecurso" returnType="Recurso" visibility="public"/>
+        <Method name="setRecurso" returnType="void" visibility="public">
+          <Argument type="Recurso" name="recurso"/>
+        </Method>
+        <Method name="getPermiso" returnType="Permiso" visibility="public"/>
+        <Method name="setPermiso" returnType="void" visibility="public">
+          <Argument type="Permiso" name="permiso"/>
+        </Method>
+        <Method name="getUsuario" returnType="Usuario" visibility="public"/>
+        <Method name="setUsuario" returnType="void" visibility="public">
+          <Argument type="Usuario" name="usuario"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="Recurso" package="infraestructuraobligatorio.dominio" visibility="public" xPosition="1520.0" yPosition="20.0">
+      <Fields>
+        <Field name="id" type="Integer" visibility="private"/>
+        <Field name="nombre" type="String" visibility="private"/>
+        <Field name="enUso" type="boolean" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="Integer" name="id"/>
+          <Argument type="String" name="nombre"/>
+        </Constructor>
+        <Constructor visibility="public"/>
+      </Constructors>
+      <Methods>
+        <Method name="getId" returnType="Integer" visibility="public"/>
+        <Method name="setId" returnType="void" visibility="public">
+          <Argument type="Integer" name="id"/>
+        </Method>
+        <Method name="getNombre" returnType="String" visibility="public"/>
+        <Method name="setNombre" returnType="void" visibility="public">
+          <Argument type="String" name="nombre"/>
+        </Method>
+        <Method name="isEnUso" returnType="boolean" visibility="public"/>
+        <Method name="setEnUso" returnType="void" visibility="public">
+          <Argument type="boolean" name="enUso"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="Tarea" package="infraestructuraobligatorio.dominio" visibility="public" xPosition="1820.0" yPosition="20.0">
+      <Fields>
+        <Field name="nombre" type="String" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="String" name="nombre"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="getNombre" returnType="String" visibility="public"/>
+        <Method name="setNombre" returnType="void" visibility="public">
+          <Argument type="String" name="nombre"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="Usuario" package="infraestructuraobligatorio.dominio" visibility="public" xPosition="2120.0" yPosition="20.0">
+      <Fields>
+        <Field name="id" type="Integer" visibility="private"/>
+        <Field name="nombre" type="String" visibility="private"/>
+        <Field name="permiso" type="Permiso" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="Integer" name="id"/>
+          <Argument type="String" name="nombre"/>
+          <Argument type="Permiso" name="permiso"/>
+        </Constructor>
+        <Constructor visibility="public"/>
+      </Constructors>
+      <Methods>
+        <Method name="getId" returnType="Integer" visibility="public"/>
+        <Method name="setId" returnType="void" visibility="public">
+          <Argument type="Integer" name="id"/>
+        </Method>
+        <Method name="getNombre" returnType="String" visibility="public"/>
+        <Method name="setNombre" returnType="void" visibility="public">
+          <Argument type="String" name="nombre"/>
+        </Method>
+        <Method name="getPermiso" returnType="Permiso" visibility="public"/>
+        <Method name="setPermiso" returnType="void" visibility="public">
+          <Argument type="Permiso" name="permiso"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="InfraestructuraObligatorio" package="infraestructuraobligatorio" visibility="public" xPosition="20.0" yPosition="420.0">
+      <Fields/>
+      <Constructors/>
+      <Methods>
+        <Method name="main" returnType="void" visibility="public" isStatic="true">
+          <Argument type="String[]" name="args"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="Sistema" package="infraestructuraobligatorio" visibility="public" xPosition="320.0" yPosition="420.0">
+      <Fields>
+        <Field name="quantum" type="Double" visibility="private" isFinal="true"/>
+      </Fields>
+      <Constructors/>
+      <Methods>
+        <Method name="procesar" returnType="void" visibility="public">
+          <Argument type="List&lt;Proceso&gt;" name="procesos"/>
+        </Method>
+        <Method name="ejecutar" returnType="void" visibility="private">
+          <Argument type="Proceso" name="proceso"/>
+        </Method>
+        <Method name="validarListaVacia" returnType="void" visibility="private">
+          <Argument type="List&lt;Proceso&gt;" name="procesos"/>
+        </Method>
+        <Method name="actualizarEstado" returnType="void" visibility="private">
+          <Argument type="Proceso" name="proceso"/>
+          <Argument type="EstadoProceso" name="estado"/>
+        </Method>
+        <Method name="borrarElementoLista" returnType="void" visibility="private">
+          <Argument type="List&lt;Proceso&gt;" name="procesos"/>
+          <Argument type="Proceso" name="proceso"/>
+        </Method>
+        <Method name="borrarTarea" returnType="void" visibility="private">
+          <Argument type="Proceso" name="proceso"/>
+        </Method>
+        <Method name="precargarProcesos" returnType="List&lt;Proceso&gt;" visibility="public">
+          <Argument type="List&lt;Proceso&gt;" name="procesos"/>
+          <Argument type="List&lt;Usuario&gt;" name="usuarios"/>
+          <Argument type="List&lt;Recurso&gt;" name="recursos"/>
+        </Method>
+        <Method name="imprimirConColor" returnType="void" visibility="private">
+          <Argument type="String" name="mensaje"/>
+          <Argument type="Colores" name="color"/>
+        </Method>
+        <Method name="validarPermiso" returnType="boolean" visibility="private">
+          <Argument type="List&lt;Proceso&gt;" name="procesos"/>
+          <Argument type="Proceso" name="proceso"/>
+        </Method>
+        <Method name="crearUsuario" returnType="Usuario" visibility="public"/>
+        <Method name="crearRecurso" returnType="Recurso" visibility="public"/>
+        <Method name="crearProceso" returnType="Proceso" visibility="public">
+          <Argument type="List&lt;Usuario&gt;" name="usuarios"/>
+          <Argument type="List&lt;Recurso&gt;" name="recursos"/>
+        </Method>
+        <Method name="asignoRecurso" returnType="Recurso" visibility="private">
+          <Argument type="List&lt;Recurso&gt;" name="recursos"/>
+        </Method>
+        <Method name="asignoUsuario" returnType="Usuario" visibility="private">
+          <Argument type="List&lt;Usuario&gt;" name="usuarios"/>
+        </Method>
+        <Method name="agregoTareaProceso" returnType="LinkedList&lt;Tarea&gt;" visibility="private"/>
+        <Method name="validarRango" returnType="void" visibility="private">
+          <Argument type="Integer" name="numero"/>
+          <Argument type="Integer" name="rangoMin"/>
+          <Argument type="Integer" name="rangoMax"/>
+        </Method>
+        <Method name="validoExistenciaUsuariosConPermisoProceso" returnType="void" visibility="private">
+          <Argument type="Proceso" name="proceso"/>
+          <Argument type="List&lt;Usuario&gt;" name="usuarios"/>
+        </Method>
+        <Method name="maxIteracionesPrevencionDeadLocks" returnType="Double" visibility="private">
+          <Argument type="List&lt;Proceso&gt;" name="procesos"/>
+        </Method>
+      </Methods>
+    </Class>
+  </ClassDiagramComponents>
+  <ClassDiagramRelations>
+    <UseRelation source="infraestructuraobligatorio.ComunidacionUsuario" target="infraestructuraobligatorio.dominio.Usuario" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="infraestructuraobligatorio.dominio.Proceso" target="infraestructuraobligatorio.dominio.Proceso" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="infraestructuraobligatorio.Sistema" target="infraestructuraobligatorio.dominio.Tarea" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="infraestructuraobligatorio.ComunidacionUsuario" target="infraestructuraobligatorio.dominio.enums.Colores" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="infraestructuraobligatorio.Sistema" target="infraestructuraobligatorio.dominio.enums.Colores" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="tareas" source="infraestructuraobligatorio.dominio.Proceso" target="infraestructuraobligatorio.dominio.Tarea" type="Aggregation" sourceCardinality="1..1" targetCardinality="0..*" collectionType="LinkedList&lt;Tarea&gt;"/>
+    <UseRelation source="infraestructuraobligatorio.dominio.Proceso" target="infraestructuraobligatorio.dominio.enums.Permiso" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="infraestructuraobligatorio.dominio.Proceso" target="infraestructuraobligatorio.dominio.Recurso" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="recurso" source="infraestructuraobligatorio.dominio.Proceso" target="infraestructuraobligatorio.dominio.Recurso" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="permiso" source="infraestructuraobligatorio.dominio.Proceso" target="infraestructuraobligatorio.dominio.enums.Permiso" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="infraestructuraobligatorio.dominio.Proceso" target="infraestructuraobligatorio.dominio.Usuario" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="infraestructuraobligatorio.dominio.Usuario" target="infraestructuraobligatorio.dominio.enums.Permiso" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="usuario" source="infraestructuraobligatorio.dominio.Proceso" target="infraestructuraobligatorio.dominio.Usuario" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="infraestructuraobligatorio.Sistema" target="infraestructuraobligatorio.dominio.Usuario" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="estado" source="infraestructuraobligatorio.dominio.Proceso" target="infraestructuraobligatorio.dominio.enums.EstadoProceso" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="infraestructuraobligatorio.dominio.Proceso" target="infraestructuraobligatorio.dominio.Tarea" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="infraestructuraobligatorio.Sistema" target="infraestructuraobligatorio.dominio.Proceso" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="infraestructuraobligatorio.Sistema" target="infraestructuraobligatorio.dominio.Recurso" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="permiso" source="infraestructuraobligatorio.dominio.Usuario" target="infraestructuraobligatorio.dominio.enums.Permiso" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+  </ClassDiagramRelations>
+</ClassDiagram>
