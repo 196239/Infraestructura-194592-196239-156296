@@ -26,16 +26,16 @@ public class ComunidacionUsuario {
                 validarRango(numeroIn, 1, 7);
                 switch(numeroIn){
                     case 1:
-                        usuarios.add(s.crearUsuario());
+                        caseUsuario(s, usuarios,procesos);
                         imprimirInicio();
                         break;
                     case 2:
-                        recursos.add(s.crearRecurso());
+                        caseRecurso(s,recursos,procesos);
                         imprimirInicio();
                         break;
                     case 3:
                         validarListaUsuariosYRecursos(usuarios, recursos);
-                        procesos.add(s.crearProceso(usuarios,recursos));
+                        caseProceso(s,procesos,recursos, usuarios);
                         imprimirInicio();
                         break;
                     case 4:
@@ -60,19 +60,19 @@ public class ComunidacionUsuario {
                 }
             }catch(NumberFormatException nE){
                 System.err.println("Debe ingresar un numero");
-                imprimirInicio();
+                //imprimirInicio();
             }catch(Exception e){
                 System.err.println(e.getLocalizedMessage());
-                imprimirInicio();
+                //imprimirInicio();
             }
         }
     }
     
     private void imprimirInicio(){
         System.out.println("-------------------------");
-        System.out.println("-   1) Crear usuarios   -");
-        System.out.println("-   2) Crear recursos   -");
-        System.out.println("-   3) Crear procesos   -");
+        System.out.println("-   1) Usuarios         -");
+        System.out.println("-   2) Recursos         -");
+        System.out.println("-   3) Procesos         -");
         System.out.println("-   4) Precargar lista  -");
         System.out.println("-   5) Ejecutar         -");
         System.out.println("-   6) Visualizar Datos -");
@@ -133,5 +133,138 @@ public class ComunidacionUsuario {
                 System.out.println((i+1) + ") "+ procesos.get(i).getNombre() + "-" + procesos.get(i).getPermiso());
             }
         }
+    }
+    
+    private void caseUsuario(Sistema s, List<Usuario> usuarios, List<Proceso> procesos){
+        Scanner in = new Scanner(System.in);
+        imprimirCrearEliminar("usuario");
+        
+        while(in.hasNextLine()){
+            try{
+                Integer numeroIn = Integer.valueOf(in.nextLine());
+                validarRango(numeroIn, 1, 3);
+                switch(numeroIn){
+                    case 1:
+                        usuarios.add(s.crearUsuario());
+                        imprimirCrearEliminar("usuario");
+                        break;
+                    case 2:
+                        Usuario usuarioElegido = s.eliminarUsuario(usuarios);
+                        validarNoExistenciaUsuarioEnProceso(procesos, usuarioElegido);
+                        usuarios.remove(usuarioElegido);
+                        imprimirCrearEliminar("usuario");
+                        break;
+                    case 3:
+                        return;
+                    default:
+                        imprimirConColor("Opcion no valida", Colores.YELLOW);
+                }
+            }catch(NumberFormatException nE){
+                System.err.println("Debe ingresar un numero");
+            }catch(Exception e){
+                System.err.println(e.getLocalizedMessage());
+            }
+        }
+    }
+    
+    private void caseRecurso(Sistema s, List<Recurso> recursos, List<Proceso> procesos){
+        Scanner in = new Scanner(System.in);
+        imprimirCrearEliminar("recurso");
+        while(in.hasNextLine()){
+            try{
+                Integer numeroIn = Integer.valueOf(in.nextLine());
+                validarRango(numeroIn, 1, 3);
+                switch(numeroIn){
+                    case 1:
+                        recursos.add(s.crearRecurso());
+                        imprimirCrearEliminar("recurso");
+                        break;
+                    case 2:
+                        Recurso recursoElegido = s.eliminarRecurso(recursos);
+                        validarNoExistenciaRecursoEnProceso(procesos,recursoElegido);
+                        recursos.remove(recursoElegido);
+                        imprimirCrearEliminar("recurso");
+                        break;
+                    case 3:
+                        return;
+                    default:
+                        imprimirConColor("Opcion no valida", Colores.YELLOW);
+                }
+            }catch(NumberFormatException nE){
+                System.err.println("Debe ingresar un numero");
+            }catch(Exception e){
+                System.err.println(e.getLocalizedMessage());
+            }
+        }
+    }
+    
+    private void validarNoExistenciaUsuarioEnProceso(List<Proceso> procesos, Usuario usuario) throws Exception{
+        boolean estaEnProceso = false;
+        Proceso procesoIncluido = null;
+        for(Proceso proceso : procesos){
+            if(proceso.getRecurso().getId() == usuario.getId()){
+                estaEnProceso = true;
+                procesoIncluido = proceso;
+                break;
+            }
+        }
+        if(estaEnProceso){
+            imprimirCrearEliminar("usuario");
+            throw new Exception("No se puede eliminar el usuario "+usuario.getNombre()+" porque esta en el proceso "+ procesoIncluido.getNombre());
+        }
+    }
+    
+    private void validarNoExistenciaRecursoEnProceso(List<Proceso> procesos, Recurso recurso) throws Exception{
+        boolean estaEnProceso = false;
+        Proceso procesoIncluido = null;
+        for(Proceso proceso : procesos){
+            if(proceso.getRecurso().getId() == recurso.getId()){
+                estaEnProceso = true;
+                procesoIncluido = proceso;
+                break;
+            }
+        }
+        if(estaEnProceso){
+            imprimirCrearEliminar("usuario");
+            throw new Exception("No se puede eliminar el recurso "+recurso.getNombre()+" porque esta en el proceso "+ procesoIncluido.getNombre());
+        }
+    }
+    
+    private void caseProceso(Sistema s, List<Proceso> procesos, List<Recurso> recursos, List<Usuario> usuarios){
+        Scanner in = new Scanner(System.in);
+        imprimirCrearEliminar("proceso");
+        while(in.hasNextLine()){
+            try{
+                Integer numeroIn = Integer.valueOf(in.nextLine());
+                validarRango(numeroIn, 1, 3);
+                switch(numeroIn){
+                    case 1:
+                        procesos.add(s.crearProceso(usuarios,recursos));
+                        imprimirCrearEliminar("proceso");
+                        break;
+                    case 2:
+                        procesos.remove(s.eliminarProceso(procesos));
+                        imprimirCrearEliminar("proceso");
+                        break;
+                    case 3:
+                        return;
+                    default:
+                        imprimirConColor("Opcion no valida", Colores.YELLOW);
+                }
+            }catch(NumberFormatException nE){
+                System.err.println("Debe ingresar un numero");
+            }catch(Exception e){
+                System.err.println(e.getLocalizedMessage());
+            }
+        }
+    }
+    
+    private void imprimirCrearEliminar(String caseElgido){
+        System.out.println("-------------------------");
+        System.out.println("-   1) Crear "+caseElgido+"    -");
+        System.out.println("-   2) Borrar "+caseElgido+"   -");
+        System.out.println("-   3) Volver           -");
+        System.out.println("-------------------------");
+        System.out.println("Elija una opcion:");
     }
 }

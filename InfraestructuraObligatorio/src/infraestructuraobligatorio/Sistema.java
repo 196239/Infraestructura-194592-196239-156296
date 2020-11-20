@@ -161,7 +161,7 @@ public class Sistema {
     }
 
     public Usuario crearUsuario(){
-        imprimirConColor("     USUARIO     ", Colores.PURPLE);
+        imprimirConColor("     CREAR    USUARIO     ", Colores.PURPLE);
         Usuario u = new Usuario();
         Scanner in = new Scanner(System.in);
         System.out.println("Elija un nombre");
@@ -205,8 +205,16 @@ public class Sistema {
         return u;
     }
     
+    public Usuario eliminarUsuario(List<Usuario> usuarios) throws Exception{
+        if(usuarios == null || usuarios.isEmpty()){
+            throw new Exception("Para ingresar a esta opcion, la lista de usuarios no puede ser vacia");
+        }
+        imprimirConColor("   ELIMINAR   USUARIO     ", Colores.PURPLE);
+        return asignoUsuario(usuarios,true);
+    }
+    
     public Recurso crearRecurso(){
-        imprimirConColor("    RECURSO     ", Colores.PURPLE);
+        imprimirConColor("   CREAR   RECURSO     ", Colores.PURPLE);
         Recurso r = new Recurso();
         Scanner in = new Scanner(System.in);
         
@@ -217,8 +225,16 @@ public class Sistema {
         return r;
     }
     
+    public Recurso eliminarRecurso(List<Recurso> recursos) throws Exception{
+        if(recursos == null || recursos.isEmpty()){
+            throw new Exception("Para ingresar a esta opcion, la lista de recursos no puede ser vacia");
+        }
+        imprimirConColor("   ELIMINAR   RECURSO     ", Colores.PURPLE);
+        return asignoRecurso(recursos,true);
+    }
+    
     public Proceso crearProceso(List<Usuario> usuarios, List<Recurso> recursos) throws Exception{
-        imprimirConColor("    PROCESO     ", Colores.PURPLE);
+        imprimirConColor("    CREAR    PROCESO     ", Colores.PURPLE);
         Proceso p = new Proceso();
         
         Scanner in = new Scanner(System.in);
@@ -276,20 +292,54 @@ public class Sistema {
                 usuariosConPermiso.add(usuario);
             }
         }
-        p.setUsuario(asignoUsuario(usuariosConPermiso));
-        p.setRecurso(asignoRecurso(recursos));
+        p.setUsuario(asignoUsuario(usuariosConPermiso, false));
+        p.setRecurso(asignoRecurso(recursos,false));
         
-        imprimirConColor("Se creo con exito el recurso: "+p.getNombre(), Colores.GREEN);
+        imprimirConColor("Se creo con exito el recurso: "+p.getNombre()+" con ESTADO: " + p.getEstado(), Colores.GREEN);
         return p;
     }
     
-    private Recurso asignoRecurso(List<Recurso> recursos){
+    public Proceso eliminarProceso(List<Proceso> procesos) throws Exception{
+        if(procesos == null || procesos.isEmpty()){
+            throw new Exception("Para ingresar a esta opcion, la lista de procesos no puede ser vacia");
+        }
+        imprimirConColor("   ELIMINAR   PROCESO     ", Colores.PURPLE);
+        return asignoProceso(procesos, true);
+    }
+    
+    private Proceso asignoProceso(List<Proceso> procesos, boolean elimina){
+        Proceso p = null;
+        Scanner in = new Scanner(System.in);
+        boolean sigo = true;
+        while(sigo){
+            try{
+                System.out.println("Elija un proceso de la lista:");
+                for(int i = 0; i < procesos.size(); i++){
+                    System.out.println((i+1) + " - " + procesos.get(i).getNombre());
+                }
+                Integer numeroIn = Integer.valueOf(in.nextLine());
+                validarRango(numeroIn, 1, procesos.size());
+                p = procesos.get(numeroIn -1);
+                sigo = false;
+            }catch(NumberFormatException nE){
+                System.err.println("Debe ingresar un numero");
+            }catch(Exception e){
+                System.err.println(e.getLocalizedMessage());
+            }
+        }
+        if(!elimina){
+            imprimirConColor("Se asigno correctamente el proceso: "+p.getNombre(), Colores.GREEN);
+        }
+        return p;
+    }
+    
+    private Recurso asignoRecurso(List<Recurso> recursos, boolean elimina){
         Recurso r = null;
         Scanner in = new Scanner(System.in);
         boolean sigo = true;
         while(sigo){
             try{
-                System.out.println("Elija un usuario de la lista:");
+                System.out.println("Elija un recurso de la lista:");
                 for(int i = 0; i < recursos.size(); i++){
                     System.out.println((i+1) + " - " + recursos.get(i).getNombre());
                 }
@@ -303,11 +353,13 @@ public class Sistema {
                 System.err.println(e.getLocalizedMessage());
             }
         }
-        imprimirConColor("Se asigno correctamente el recurso: "+r.getNombre(), Colores.GREEN);
+        if(!elimina){
+            imprimirConColor("Se asigno correctamente el recurso: "+r.getNombre(), Colores.GREEN);
+        }
         return r;
     }
     
-    private Usuario asignoUsuario(List<Usuario> usuarios){
+    private Usuario asignoUsuario(List<Usuario> usuarios, boolean elimina){
         Usuario u = null;
         Scanner in = new Scanner(System.in);
         boolean sigo = true;
@@ -327,7 +379,9 @@ public class Sistema {
                 System.err.println(e.getLocalizedMessage());
             }
         }
-        imprimirConColor("Se asigno correctamente el usuario: "+u.getNombre(), Colores.GREEN);
+        if(!elimina){
+            imprimirConColor("Se asigno correctamente el usuario: "+u.getNombre(), Colores.GREEN);
+        }
         return u;
     }
     
