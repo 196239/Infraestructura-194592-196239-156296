@@ -43,7 +43,7 @@ public class Sistema {
     private void ejecutar(Proceso proceso) {
         if(proceso.getRecurso().isEnUso() 
                 && !EstadoProceso.BLOQUEADO.equals(proceso.getEstado())){
-            imprimirConColor("El proceso: " + proceso.getId() + " espera por el recurso: " + proceso.getRecurso().getNombre(), Colores.YELLOW);
+            imprimirConColor("El proceso: " + proceso.getId()+"-"+ proceso.getNombre() + " espera por el recurso: " + proceso.getRecurso().getNombre(), Colores.YELLOW);
             return;
         }
         
@@ -68,7 +68,7 @@ public class Sistema {
     private void actualizarEstado(Proceso proceso, EstadoProceso estado) {
         if (!proceso.getEstado().equals(estado)) {
             proceso.setEstado(estado);
-            imprimirConColor("El proceso: " + proceso.getId() + " se cambio al estado: " + proceso.getEstado(), Colores.CYAN);
+            imprimirConColor("El proceso: " + proceso.getId()+"-"+proceso.getNombre() + " se cambio al estado: " + proceso.getEstado(), Colores.CYAN);
         }
     }
 
@@ -76,7 +76,7 @@ public class Sistema {
         if (proceso.getDuracion() <= 0D) {
             proceso.getRecurso().setEnUso(false);
             procesos.remove(proceso);
-            imprimirConColor("El proceso: " + proceso.getId() + " ha finalizado y libero el recurso: " + proceso.getRecurso().getNombre(), Colores.GREEN);
+            imprimirConColor("El proceso: " + proceso.getId()+"-"+proceso.getNombre() + " ha finalizado y libero el recurso: " + proceso.getRecurso().getNombre(), Colores.GREEN);
         }
     }
 
@@ -84,7 +84,7 @@ public class Sistema {
         LinkedList<Tarea> tareas = proceso.getTareas();
         if (!tareas.isEmpty()) {
             Tarea tarea = tareas.element();
-            System.out.println("Se ejecuto la tarea: " + tarea.getNombre() + " del proceso " + proceso.getId());
+            System.out.println("Se ejecuto la tarea: " + tarea.getNombre() + " del proceso " + proceso.getId()+"-"+proceso.getNombre());
             tareas.pop();
         }
     }
@@ -153,7 +153,7 @@ public class Sistema {
         int igual = proceso.getPermiso().compareTo(proceso.getUsuario().getPermiso());
 
         if(igual < 0){
-            imprimirConColor("El proceso "+proceso.getId()+" no tiene permisos",Colores.RED);
+            imprimirConColor("El proceso "+proceso.getId()+"-"+proceso.getNombre()+" no tiene permisos",Colores.RED);
             procesos.remove(proceso);
             tienePermisos = false;
         }
@@ -295,7 +295,7 @@ public class Sistema {
         p.setUsuario(asignoUsuario(usuariosConPermiso, false));
         p.setRecurso(asignoRecurso(recursos,false));
         
-        imprimirConColor("Se creo con exito el recurso: "+p.getNombre()+" con ESTADO: " + p.getEstado(), Colores.GREEN);
+        imprimirConColor("Se creo con exito el PROCESO: "+p.getNombre()+" con ESTADO: " + p.getEstado(), Colores.GREEN);
         return p;
     }
     

@@ -202,7 +202,7 @@ public class ComunidacionUsuario {
         boolean estaEnProceso = false;
         Proceso procesoIncluido = null;
         for(Proceso proceso : procesos){
-            if(proceso.getRecurso().getId() == usuario.getId()){
+            if(proceso.getUsuario().getId() == usuario.getId()){
                 estaEnProceso = true;
                 procesoIncluido = proceso;
                 break;
@@ -225,7 +225,7 @@ public class ComunidacionUsuario {
             }
         }
         if(estaEnProceso){
-            imprimirCrearEliminar("usuario");
+            imprimirCrearEliminar("recurso");
             throw new Exception("No se puede eliminar el recurso "+recurso.getNombre()+" porque esta en el proceso "+ procesoIncluido.getNombre());
         }
     }
@@ -253,8 +253,10 @@ public class ComunidacionUsuario {
                 }
             }catch(NumberFormatException nE){
                 System.err.println("Debe ingresar un numero");
+                imprimirCrearEliminar("proceso");
             }catch(Exception e){
                 System.err.println(e.getLocalizedMessage());
+                imprimirCrearEliminar("proceso");
             }
         }
     }
