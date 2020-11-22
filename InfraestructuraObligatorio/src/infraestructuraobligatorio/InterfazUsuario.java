@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class ComunidacionUsuario {
+public class InterfazUsuario {
     
     public void iniciar(){
         imprimirConColor("         BIENVENIDO         ",Colores.PURPLE);
@@ -62,8 +62,8 @@ public class ComunidacionUsuario {
                 System.err.println("Debe ingresar un numero");
                 //imprimirInicio();
             }catch(Exception e){
-                System.err.println(e.getLocalizedMessage());
-                //imprimirInicio();
+                imprimirConColor(e.getLocalizedMessage(),Colores.RED);
+                imprimirInicio();
             }
         }
     }
@@ -162,7 +162,8 @@ public class ComunidacionUsuario {
             }catch(NumberFormatException nE){
                 System.err.println("Debe ingresar un numero");
             }catch(Exception e){
-                System.err.println(e.getLocalizedMessage());
+                imprimirConColor(e.getLocalizedMessage(), Colores.RED);
+                imprimirCrearEliminar("usuario");
             }
         }
     }
@@ -194,6 +195,7 @@ public class ComunidacionUsuario {
                 System.err.println("Debe ingresar un numero");
             }catch(Exception e){
                 System.err.println(e.getLocalizedMessage());
+                imprimirCrearEliminar("recurso");
             }
         }
     }
@@ -269,4 +271,6 @@ public class ComunidacionUsuario {
         System.out.println("-------------------------");
         System.out.println("Elija una opcion:");
     }
+    
+    
 }

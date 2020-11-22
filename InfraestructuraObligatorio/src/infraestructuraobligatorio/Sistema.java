@@ -160,22 +160,25 @@ public class Sistema {
         return tienePermisos;
     }
 
-    public Usuario crearUsuario(){
+    public Usuario crearUsuario() throws Exception{
         imprimirConColor("     CREAR    USUARIO     ", Colores.PURPLE);
+        String nombre="";
         Usuario u = new Usuario();
         Scanner in = new Scanner(System.in);
         System.out.println("Elija un nombre");
-        u.setNombre(in.nextLine());
+        nombre = in.nextLine();
+        validarNombreVacio(nombre, "usuario");
+        u.setNombre(nombre);
         System.out.println("Asigne el permiso, puede ser:");
         imprimirConColor("1- ADMIN", Colores.BLUE);
         imprimirConColor("2- USUARIO", Colores.BLUE);
         imprimirConColor("3- INVITADO", Colores.BLUE);
         boolean permisoValido = false;
         while(!permisoValido){
-            try{
+            try {
                 Integer numeroIn = Integer.valueOf(in.nextLine());
                 validarRango(numeroIn, 1, 3);
-                switch(numeroIn){
+                switch (numeroIn) {
                     case 1:
                         u.setPermiso(Permiso.ADMIN);
                         permisoValido = true;
@@ -195,14 +198,15 @@ public class Sistema {
                         imprimirConColor("3- INVITADO", Colores.BLUE);
                         break;
                 }
-            }catch(NumberFormatException nE){
+            } catch (NumberFormatException nE) {
                 System.err.println("Debe ingresar un numero");
-            }catch(Exception e){
+            } catch (Exception e) {
                 System.err.println(e.getLocalizedMessage());
             }
         }
-        imprimirConColor("Se creo con exito el usuario: "+u.getNombre(), Colores.GREEN);
+        imprimirConColor("Se creo con exito el usuario: " + u.getNombre(), Colores.GREEN);
         return u;
+       
     }
     
     public Usuario eliminarUsuario(List<Usuario> usuarios) throws Exception{
@@ -213,17 +217,20 @@ public class Sistema {
         return asignoUsuario(usuarios,true);
     }
     
-    public Recurso crearRecurso(){
+    public Recurso crearRecurso() throws Exception{
         imprimirConColor("   CREAR   RECURSO     ", Colores.PURPLE);
-        Recurso r = new Recurso();
+        Recurso r;
+        String nombre="";
         Scanner in = new Scanner(System.in);
         
         System.out.println("Elija un nombre");
-        r.setNombre(in.nextLine());
-        
+        nombre=in.nextLine();
+        validarNombreVacio(nombre, "recurso");
+        r = new Recurso();
+        r.setNombre(nombre);
         imprimirConColor("Se creo con exito el recurso: "+r.getNombre(), Colores.GREEN);
         return r;
-    }
+     }
     
     public Recurso eliminarRecurso(List<Recurso> recursos) throws Exception{
         if(recursos == null || recursos.isEmpty()){
@@ -457,5 +464,9 @@ public class Sistema {
         maxIteraciones = (maxIteraciones * maxIteraciones);
         return maxIteraciones;
     }
-    
+    private void validarNombreVacio(String nombre, String recurso) throws Exception{
+       if(nombre.trim().equals("")){
+           throw new Exception("El nombre del " + recurso + " no puede ser vacío");
+       }
+    }
 }

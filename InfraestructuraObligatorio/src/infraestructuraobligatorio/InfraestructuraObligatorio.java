@@ -6,7 +6,7 @@ public class InfraestructuraObligatorio {
     public static void main(String[] args) {
         System.out.println(" INICIO ");
         
-        ComunidacionUsuario c = new ComunidacionUsuario();
+        InterfazUsuario c = new InterfazUsuario();
         c.iniciar();
         
         System.out.println(" FIN ");
